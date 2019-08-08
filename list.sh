@@ -34,3 +34,8 @@ echo 'EC2 Instances:'
 aws ec2 describe-instances --output text \
   --query 'Reservations[][Instances[][LaunchTime,InstanceType,KeyName,State.Name]] | sort_by(@[][], &[0])' \
   | perl -pne 's/^/\t/'
+
+echo 'RDS Instances:'
+aws rds describe-db-instances --output text \
+  --query 'DBInstances[][InstanceCreateTime,DBInstanceClass,DBName,DBInstanceIdentifier] | sort_by(@, &[0])' \
+  | perl -pne 's/^/\t/'
